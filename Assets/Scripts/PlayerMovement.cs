@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// da koristim snake_case
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float move_speed;
@@ -14,18 +14,30 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject bullet_prefab;
     [SerializeField] private GameObject fire_point; 
     [SerializeField] private GameObject bullet_container;
+    [SerializeField] private float fire_rate;
+    [SerializeField] private float climbing_speed;
+    [SerializeField] private LayerMask climbing_layer;
+    private float next_time;
     private float dirX = 0;
+    private float dirY = 0;
+    private float _starting_gravity_scale = 0;
+
+    private void Start() {
+         _starting_gravity_scale = rb2D.gravityScale;
+    }
     private void Update() {
         Jump();
+        fire();
     }
     private void FixedUpdate() {
         Move();
+        Climb();
         flip();
-        fire();
     }
 
     private void Move(){
         dirX = Input.GetAxis("Horizontal");
+        dirY = Input.GetAxis("Vertical");
         animate();
         Vector2 velocity = new Vector2(dirX*move_speed*Time.deltaTime,rb2D.velocity.y);
         rb2D.velocity = velocity;
@@ -55,12 +67,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     private void fire(){
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) && Time.time > next_time)
         {
+            next_time = Time.time + fire_rate;
             animator.SetTrigger("fire");
             GameObject bullet = Instantiate(bullet_prefab,fire_point.transform.position,fire_point.transform.rotation);
             bullet.transform.SetParent(bullet_container.transform);
             bullet.GetComponent<Bullet>().speed*=transform.localScale.x;
         }
+    }
+
+    private void Climb(){
+        if (!cc2D.IsTouchingLayers(climbing_layer)){return;}else{rb2D.gravityScale = _starting_gravity_scale;}
+        Vector2 climb_velocity = new Vector2(rb2D.velocity.x,dirY * climbing_speed);
+        rb2D.velocity = climb_velocity;
+        rb2D.gravityScale = 0;
     }
 }

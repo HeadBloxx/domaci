@@ -14,8 +14,8 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
-  - 
+  - Climbing
+  - Enemy
   - 
   - 
   - 
@@ -45,9 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: background
-    uniqueID: 1092473269
+  - name: Climbing
+    uniqueID: 702069031
+    locked: 0
+  - name: Player
+    uniqueID: 465256641
     locked: 0
   - name: Bullet
     uniqueID: 1784736313
+    locked: 0
+  - name: background
+    uniqueID: 1092473269
     locked: 0

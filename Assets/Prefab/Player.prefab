@@ -181,6 +181,12 @@ MonoBehaviour:
   animator: {fileID: 1950644391625424101}
   bullet_prefab: {fileID: 2231750593074981402, guid: 77780fe4d5bc64f45b240f4439d92e81, type: 3}
   fire_point: {fileID: 1950644391046054996}
+  bullet_container: {fileID: 0}
+  fire_rate: 0.35
+  climbing_speed: 3
+  climbing_layer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!95 &1950644391625424101
 Animator:
   serializedVersion: 4
